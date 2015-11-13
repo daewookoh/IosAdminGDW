@@ -43,6 +43,11 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
     var datePicker: UIDatePicker!
     var selectedDate: String = ""
     var selTitle:String = ""
+    var url:String = ""
+    var webViewUrl:String = ""
+    var osWebUrl:String = ""
+    var selUrl:String = ""
+    var selMode:String = ""
     var myUrl:String = ""
     var user:UserInfo = UserInfo()
     var alertController: UIAlertController!
@@ -71,14 +76,41 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
 
+        webViewUrl = selUrl
+        
+        // Default 값
+        if (selMode != "webview_page")
+        {
+            selTitle = "옹달샘일정[모바일]"
+            url = "http://www.godowoncenter.com/admingoc/report/m/today.goc"
+            
+            let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+            
+            if let encodedUrl = encodedUrl {
+                
+                webViewUrl =
+                "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(user.gdw_mem_no)&goc_mem_no=\(user.goc_mem_no)"
+                
+            }
+        }
+        
+        myTitle.text = selTitle
+
+        if(selMode == "os_web_page")
+        {
+            osWebUrl = selUrl
+            UIApplication.sharedApplication().openURL(NSURL(string: osWebUrl)!)
+        }
+        
         if let theWebView = webView{
-            myUrl = generateMyUrl(user.gdw_mem_no, goc_mem_no: user.goc_mem_no)
-            loadWebViewWithUrl(myUrl)
+            loadWebViewWithUrl(webViewUrl)
             theWebView.navigationDelegate = self
             //theWebView.UIDelegate = self
             myViewForWeb.addSubview(theWebView)
             
         }
+
+
 
     }
     
@@ -147,71 +179,6 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
             completionHandler(true)
         }))
         self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-
-    func generateMyUrl(gdw_mem_no: Int, goc_mem_no: Int) -> String{
-        
-        var title:String = selTitle
-        var url:String = ""
-        var finalUrl:String = ""
-        
-        switch title {
-        case "옹달샘일정[모바일]" :
-            url = "http://www.godowoncenter.com/admingoc/report/m/today.goc"
-   
-        case "옹달샘일정[PC]" :
-            url = "http://www.godowoncenter.com/admingoc/program/program_calendar.goc"
-    
-        case "아침지기 이메일" :
-            url = "http://www.godowon.com/admingdw/index.gdw?redirect=mail"
-            
-        case "아침지기[모바일]" :
-            url = "http://www.godowon.com/m/admingdw/index.gdw"
-            
-        case "아침지기[PC]" :
-            url = "http://www.godowon.com/admingdw/index.gdw"
-            
-        case "스케쥴" :
-            url = "http://www.godowon.com/board/gdwboard.gdw?id=admin_Schedule"
-            
-        case "기타 게시판" :
-            url = "http://www.godowon.com/m/admingdw/main_board_list.gdw"
-            
-        case "내일자 점검" :
-            url = "http://www.godowon.com/m/admingdw/check_tomorrow_letter.gdw"
-            
-        case "통계" :
-            url = "http://www.godowon.com/m/admingdw/main_stat.gdw"
-            
-        case "아침편지 홈" :
-            url = "http://www.godowon.com"
-            
-        case "옹달샘 홈" :
-            url = "http://www.godowoncenter.com"
-            
-        case "꽃마 홈" :
-            url = "http://www.cconma.com"
-            
-        default :
-            title = "옹달샘일정[모바일]"
-            url = "http://www.godowoncenter.com/admingoc/report/m/today.goc"
-            
-        }
-        
-        myTitle.text = title
-        
-        let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
-        
-        if let encodedUrl = encodedUrl {
-            
-            finalUrl =
-            "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(gdw_mem_no)&goc_mem_no=\(goc_mem_no)"
-            
-        }
-        
-        return finalUrl
-        
     }
     
     

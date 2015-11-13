@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ic7-Ui-lmJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ic7-Ui-lmJ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -210,7 +210,7 @@
         <image name="logo.png" width="186" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="afH-c6-YzT"/>
+        <segue reference="4Kh-7y-WH3"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.08235294371843338" green="0.64313727617263794" blue="0.78039222955703735" alpha="1" colorSpace="deviceRGB"/>
 </document>

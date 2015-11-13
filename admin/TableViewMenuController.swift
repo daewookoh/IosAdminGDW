@@ -15,6 +15,10 @@ class TableViewMenuController: UITableViewController {
     var TableArray = [String]()
     var myWebView = WebViewController()
     var user:UserInfo = UserInfo()
+    var url:String = ""
+    var encodedUrl:String = ""
+    var selUrl:String = ""
+    var selMode:String = ""
     
     override func viewDidLoad() {
         
@@ -61,8 +65,76 @@ class TableViewMenuController: UITableViewController {
         let DestVC = segue.destinationViewController as! WebViewController
         let indexPath : NSIndexPath = self.tableView.indexPathForSelectedRow!
         let selTitle = TableArray[indexPath.row]
+
+        
+        switch selTitle {
+        case "옹달샘일정[모바일]" :
+            url = "http://www.godowoncenter.com/admingoc/report/m/today.goc"
+            selMode = "webview_page"
+            
+        case "옹달샘일정[PC]" :
+            url = "http://www.godowoncenter.com/admingoc/program/program_calendar.goc"
+            selMode = "webview_page"
+            
+        case "아침지기 이메일" :
+            url = "http://www.godowon.com/admingdw/index.gdw?redirect=mail"
+            selMode = "os_web_page"
+            
+        case "아침지기[모바일]" :
+            url = "http://www.godowon.com/m/admingdw/index.gdw"
+            selMode = "os_web_page"
+            
+        case "아침지기[PC]" :
+            url = "http://www.godowon.com/admingdw/index.gdw"
+            selMode = "os_web_page"
+            
+        case "스케쥴" :
+            url = "http://www.godowon.com/board/gdwboard.gdw?id=admin_Schedule"
+            selMode = "webview_page"
+            
+        case "기타 게시판" :
+            url = "http://www.godowon.com/m/admingdw/main_board_list.gdw"
+            selMode = "webview_page"
+            
+        case "내일자 점검" :
+            url = "http://www.godowon.com/m/admingdw/check_tomorrow_letter.gdw"
+            selMode = "webview_page"
+            
+        case "통계" :
+            url = "http://www.godowon.com/m/admingdw/main_stat.gdw"
+            selMode = "webview_page"
+            
+        case "아침편지 홈" :
+            url = "http://www.godowon.com"
+            selMode = "webview_page"
+            
+        case "옹달샘 홈" :
+            url = "http://www.godowoncenter.com"
+            selMode = "webview_page"
+            
+        case "꽃마 홈" :
+            url = "http://www.cconma.com"
+            selMode = "webview_page"
+            
+        default :
+            title = "옹달샘일정[모바일]"
+            url = "http://www.godowoncenter.com/admingoc/report/m/today.goc"
+            selMode = "webview_page"
+            
+        }
+        
+        let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+        
+        if let encodedUrl = encodedUrl {
+            
+            selUrl =
+            "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(user.gdw_mem_no)&goc_mem_no=\(user.goc_mem_no)"
+            
+        }
         
         DestVC.selTitle = selTitle
+        DestVC.selUrl = selUrl
+        DestVC.selMode = selMode
     }
 
 
