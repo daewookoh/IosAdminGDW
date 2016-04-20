@@ -10,9 +10,9 @@ import Foundation
 
 class UserInfo {
     
-    var name:String = "이서영"
-    var gdw_mem_no:Int = 2712367
-    var goc_mem_no:Int = 74646
+    var name:String = "김보라"
+    var gdw_mem_no:Int = 2627743
+    var goc_mem_no:Int = 56099
     
 /*
     // 아이폰 유저세팅
@@ -96,5 +96,17 @@ class UserInfo {
     var name:String = "김보경"
     var gdw_mem_no:Int = 2707610
     var goc_mem_no:Int = 73774
+    
+    var name:String = "유호림"
+    var gdw_mem_no:Int = 2714914
+    var goc_mem_no:Int = 75321
+    
+    var name:String = "김수관"
+    var gdw_mem_no:Int = 2714915
+    var goc_mem_no:Int = 75322
+     
+    var name:String = "김보라"
+    var gdw_mem_no:Int = 2627743
+    var goc_mem_no:Int = 56099
 */
 }
