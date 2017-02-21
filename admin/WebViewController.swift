@@ -15,20 +15,20 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
     @IBOutlet weak var myTitle: UILabel!
     @IBOutlet weak var myViewForWeb: UIView!
 
-    @IBAction func menuBtnClicked(sender: AnyObject) {
+    @IBAction func menuBtnClicked(_ sender: AnyObject) {
         self.revealViewController().revealToggle(self)
     }
     
     
-    @IBAction func backBtnClicked(sender: AnyObject) {
+    @IBAction func backBtnClicked(_ sender: AnyObject) {
         webView.goBack()
     }
     
-    @IBAction func forwardBtnClicked(sender: AnyObject) {
+    @IBAction func forwardBtnClicked(_ sender: AnyObject) {
         webView.goForward()
     }
     
-    @IBAction func reloadBtnClicked(sender: AnyObject) {
+    @IBAction func reloadBtnClicked(_ sender: AnyObject) {
         if(CheckInternetConnection.isConnectedToNetwork())
         {
             webView.reload()
@@ -61,7 +61,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         // 슬라이딩 메뉴 설정
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         
-        contentController.addScriptMessageHandler(
+        contentController.add(
             self,
             name: "ios"
         )
@@ -84,7 +84,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
             selTitle = "옹달샘일정[모바일]"
             url = "http://www.godowoncenter.com/admingoc/report/m/today.goc"
             
-            let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+            let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
             
             if let encodedUrl = encodedUrl {
                 
@@ -99,7 +99,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         if(selMode == "os_web_page")
         {
             osWebUrl = selUrl
-            UIApplication.sharedApplication().openURL(NSURL(string: osWebUrl)!)
+            UIApplication.shared.openURL(URL(string: osWebUrl)!)
         }
         
         if let theWebView = webView{
@@ -114,9 +114,9 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
 
     }
     
-    func userContentController(userContentController: WKUserContentController,didReceiveScriptMessage message: WKScriptMessage) {
+    func userContentController(_ userContentController: WKUserContentController,didReceive message: WKScriptMessage) {
 
-        if(message.body.isEqualToString("[ChangeDate]")) {
+        if((message.body as AnyObject).isEqual(to: "[ChangeDate]")) {
             createDatePickerViewWithAlertController()
         }
         
@@ -126,13 +126,13 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         super.didReceiveMemoryWarning()
     }
     
-    func loadWebViewWithUrl(urlInfo: String) {
-        let url = NSURL(string: urlInfo)
-        let request = NSURLRequest(URL: url!)
+    func loadWebViewWithUrl(_ urlInfo: String) {
+        let url = URL(string: urlInfo)
+        let request = URLRequest(url: url!)
 
         if(CheckInternetConnection.isConnectedToNetwork())
         {
-            webView.loadRequest(request)
+            webView.load(request)
         }
         else
         {
@@ -142,75 +142,75 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         
     }
 
-    func webView(webView: WKWebView,
+    func webView(_ webView: WKWebView,
         didStartProvisionalNavigation navigation: WKNavigation){
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
-    func webView(webView: WKWebView,
-        didFinishNavigation navigation: WKNavigation){
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    func webView(_ webView: WKWebView,
+        didFinish navigation: WKNavigation){
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
   
 
     // MARK: WKUIDelegate methods
     
-    func webView(webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: (() -> Void)) {
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: (@escaping () -> Void)) {
 
         //print("webView:\(webView) runJavaScriptAlertPanelWithMessage:\(message) initiatedByFrame:\(frame) completionHandler:\(completionHandler)")
         
-        let alertController = UIAlertController(title: frame.request.URL?.host, message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+        let alertController = UIAlertController(title: frame.request.url?.host, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             completionHandler()
         }))
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
 
 
     }
     
-    func webView(webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: ((Bool) -> Void)) {
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: (@escaping (Bool) -> Void)) {
         //print("webView:\(webView) runJavaScriptConfirmPanelWithMessage:\(message) initiatedByFrame:\(frame) completionHandler:\(completionHandler)")
         
-        let alertController = UIAlertController(title: frame.request.URL?.host, message: message, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { action in
+        let alertController = UIAlertController(title: frame.request.url?.host, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
             completionHandler(false)
         }))
-        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             completionHandler(true)
         }))
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     
     func createDatePickerViewWithAlertController()
     {
         
-        let viewDatePicker: UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 200))
-        viewDatePicker.backgroundColor = UIColor.clearColor()
+        let viewDatePicker: UIView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200))
+        viewDatePicker.backgroundColor = UIColor.clear
         
         
-        datePicker = UIDatePicker(frame: CGRectMake(0, 0, self.view.frame.size.width, 200))
-        datePicker.datePickerMode = UIDatePickerMode.Date
-        datePicker.addTarget(self, action: nil, forControlEvents: UIControlEvents.ValueChanged)
+        datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200))
+        datePicker.datePickerMode = UIDatePickerMode.date
+        datePicker.addTarget(self, action: nil, for: UIControlEvents.valueChanged)
         
         viewDatePicker.addSubview(datePicker)
         
         
-        if(UIDevice.currentDevice().systemVersion >= "8.0")
+        if(UIDevice.current.systemVersion >= "8.0")
         {
             
-            let alertController = UIAlertController(title: nil, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            let alertController = UIAlertController(title: nil, message: "\n\n\n\n\n\n\n\n\n\n", preferredStyle: UIAlertControllerStyle.actionSheet)
             
             alertController.view.addSubview(viewDatePicker)
             
-            let cancelAction = UIAlertAction(title: "취소", style: .Cancel)
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
                 { (action) in
                     // ...
             }
             
             alertController.addAction(cancelAction)
             
-            let OKAction = UIAlertAction(title: "선택", style: .Default)
+            let OKAction = UIAlertAction(title: "선택", style: .default)
                 { (action) in
                     
                     self.dateSelected()
@@ -218,7 +218,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
             
             alertController.addAction(OKAction)
             
-            self.presentViewController(alertController, animated: true)
+            self.present(alertController, animated: true)
                 {
                     // ...
             }
@@ -227,8 +227,8 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         else
         {
             let actionSheet = UIActionSheet()
-            actionSheet.addButtonWithTitle("iOS 버젼을 업데이트 해주세요")
-            actionSheet.showInView(self.view)
+            actionSheet.addButton(withTitle: "iOS 버젼을 업데이트 해주세요")
+            actionSheet.show(in: self.view)
         }
     }
     
@@ -239,17 +239,17 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         loadWebViewWithUrl(myUrl)
     }
     
-    func dateformatterDate(date: NSDate) -> NSString
+    func dateformatterDate(_ date: Date) -> NSString
     {
-        let dateFormatter: NSDateFormatter = NSDateFormatter()
+        let dateFormatter: DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter.stringFromDate(date)
+        return dateFormatter.string(from: date) as NSString
     }
     
     
     // Now Implement UIActionSheet Delegate Method just for support for iOS 7 not for iOS 8
     // MARK: - UIActionSheet Delegate Implementation ::
-    func actionSheet(actionSheet: UIActionSheet!, clickedButtonAtIndex buttonIndex: Int)
+    func actionSheet(_ actionSheet: UIActionSheet!, clickedButtonAtIndex buttonIndex: Int)
     {
         switch buttonIndex
         {
@@ -266,7 +266,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         }
     }
     
-    func uicolorFromHex(rgbValue:UInt32)->UIColor{
+    func uicolorFromHex(_ rgbValue:UInt32)->UIColor{
         let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
         let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0
         let blue = CGFloat(rgbValue & 0xFF)/256.0

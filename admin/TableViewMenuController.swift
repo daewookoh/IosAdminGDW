@@ -40,13 +40,13 @@ class TableViewMenuController: UITableViewController {
         ]
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TableArray.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell
         
         cell.textLabel?.text = TableArray[indexPath.row]
         cell.textLabel?.textColor = myWebView.uicolorFromHex(0x54a5e6)
@@ -56,14 +56,14 @@ class TableViewMenuController: UITableViewController {
         
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let DestVC = segue.destinationViewController as! WebViewController
-        let indexPath : NSIndexPath = self.tableView.indexPathForSelectedRow!
+        let DestVC = segue.destination as! WebViewController
+        let indexPath : IndexPath = self.tableView.indexPathForSelectedRow!
         let selTitle = TableArray[indexPath.row]
 
         
@@ -123,7 +123,7 @@ class TableViewMenuController: UITableViewController {
             
         }
         
-        let encodedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())
+        let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
         
         if let encodedUrl = encodedUrl {
             

@@ -188,11 +188,11 @@
 					B5D4EEBE1BABD63A00EA6127 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = GZUCLFV3B6;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 					};
 					B5D4EED31BABD63A00EA6127 = {
 						CreatedOnToolsVersion = 6.2;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						TestTargetID = B5D4EEBE1BABD63A00EA6127;
 					};
 				};
@@ -389,7 +389,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "admin/admin-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -414,7 +414,7 @@
 				PRODUCT_NAME = "admin-WKWebview";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "admin/admin-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -435,7 +435,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "test.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "admin-WKWebview";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/admin-WKWebview.app/admin-WKWebview";
 			};
 			name = Debug;
@@ -452,7 +452,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "test.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "admin-WKWebview";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/admin-WKWebview.app/admin-WKWebview";
 			};
 			name = Release;
