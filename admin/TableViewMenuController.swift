@@ -22,21 +22,26 @@ class TableViewMenuController: UITableViewController {
     
     override func viewDidLoad() {
         
-        myName.text = user.name
+        let name = UserDefault.load(key:"name")
+
+        
+        myName.text = name
         
         TableArray = [
             "옹달샘일정[모바일]",
-            "옹달샘일정[PC]",
-            "아침지기 이메일",
             "아침지기[모바일]",
             "아침지기[PC]",
-            "스케쥴",
-            "기타 게시판",
             "내일자 점검",
             "통계",
-            "아침편지 홈",
-            "옹달샘 홈",
-            "꽃마 홈"
+            "스케쥴",
+            "강연요청",
+            "옹달샘일정[PC]",
+            "요청사항&버그신고",
+            "아침지기 이메일",
+            "기타 게시판",
+            //"아침편지 홈",
+            //"옹달샘 홈",
+            //"꽃마 홈"
         ]
     }
 
@@ -76,6 +81,10 @@ class TableViewMenuController: UITableViewController {
             url = "http://www.godowoncenter.com/admingoc/program/program_calendar.goc"
             selMode = "webview_page"
             
+        case "요청사항&버그신고" :
+            url = "http://www.godowon.com/m/admingdw/board_write.gdw?b_code=adminrequest"
+            selMode = "os_web_page"
+            
         case "아침지기 이메일" :
             url = "http://www.godowon.com/admingdw/index.gdw?redirect=mail"
             selMode = "os_web_page"
@@ -90,11 +99,15 @@ class TableViewMenuController: UITableViewController {
             
         case "스케쥴" :
             url = "http://www.godowon.com/board/gdwboard.gdw?id=admin_Schedule"
-            selMode = "webview_page"
+            selMode = "os_web_page"
+            
+        case "강연요청" :
+            url = "http://www.godowon.com/m/admingdw/main_article_list.gdw?b_code=adminlequestlecture"
+            selMode = "os_web_page"
             
         case "기타 게시판" :
             url = "http://www.godowon.com/m/admingdw/main_board_list.gdw"
-            selMode = "webview_page"
+            selMode = "os_web_page"
             
         case "내일자 점검" :
             url = "http://www.godowon.com/m/admingdw/check_tomorrow_letter.gdw"
@@ -102,7 +115,7 @@ class TableViewMenuController: UITableViewController {
             
         case "통계" :
             url = "http://www.godowon.com/m/admingdw/main_stat.gdw"
-            selMode = "webview_page"
+            selMode = "os_web_page"
             
         case "아침편지 홈" :
             url = "http://www.godowon.com"
@@ -125,10 +138,12 @@ class TableViewMenuController: UITableViewController {
         
         let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
         
+        let gdw_mem_no = UserDefault.load(key:"gdw_mem_no")
+        let goc_mem_no = UserDefault.load(key:"goc_mem_no")
         if let encodedUrl = encodedUrl {
             
             selUrl =
-            "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(user.gdw_mem_no)&goc_mem_no=\(user.goc_mem_no)"
+            "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(gdw_mem_no)&goc_mem_no=\(goc_mem_no)"
             
         }
         

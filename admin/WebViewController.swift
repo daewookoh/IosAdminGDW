@@ -40,6 +40,8 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         }
     }
     
+
+    
     var datePicker: UIDatePicker!
     var selectedDate: String = ""
     var selTitle:String = ""
@@ -55,11 +57,14 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
     var contentController = WKUserContentController()
 
     override func viewDidLoad() {
-        
+    
         super.viewDidLoad()
         
         // 슬라이딩 메뉴 설정
-        self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        //self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        
+        //self.dismiss(animated: true, completion: nil)
+
         
         contentController.add(
             self,
@@ -74,9 +79,16 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         configuration.preferences = preferences
         configuration.userContentController = contentController
         
-        webView = WKWebView(frame: view.bounds, configuration: configuration)
+        let item = WKWebView()
+        item.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height-100)
+        
+        webView = WKWebView(frame: item.frame, configuration: configuration)
 
         webViewUrl = selUrl
+        
+        
+        let gdw_mem_no = UserDefault.load(key:"gdw_mem_no")
+        let goc_mem_no = UserDefault.load(key:"goc_mem_no")
         
         // Default 값
         if (selMode != "webview_page")
@@ -89,7 +101,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
             if let encodedUrl = encodedUrl {
                 
                 webViewUrl =
-                "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(user.gdw_mem_no)&goc_mem_no=\(user.goc_mem_no)"
+                "http://www.godowon.com/m/surl.gdw?url=\(encodedUrl)&gdw_mem_no=\(gdw_mem_no)&goc_mem_no=\(goc_mem_no)"
                 
             }
         }
@@ -127,6 +139,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
     }
     
     func loadWebViewWithUrl(_ urlInfo: String) {
+        
         let url = URL(string: urlInfo)
         let request = URLRequest(url: url!)
 
@@ -191,7 +204,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
         
         datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 200))
         datePicker.datePickerMode = UIDatePickerMode.date
-        datePicker.addTarget(self, action: nil, for: UIControlEvents.valueChanged)
+        datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         
         viewDatePicker.addSubview(datePicker)
         
@@ -229,6 +242,13 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, W
             let actionSheet = UIActionSheet()
             actionSheet.addButton(withTitle: "iOS 버젼을 업데이트 해주세요")
             actionSheet.show(in: self.view)
+        }
+    }
+    
+    func dateChanged(_ sender: UIDatePicker) {
+        let componenets = Calendar.current.dateComponents([.year, .month, .day], from: sender.date)
+        if let day = componenets.day, let month = componenets.month, let year = componenets.year {
+            print("\(day) \(month) \(year)")
         }
     }
     
