@@ -409,7 +409,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "test.admin-WKWebview";
+				PRODUCT_BUNDLE_IDENTIFIER = test.ios.admingdw;
 				PRODUCT_NAME = "admin-WKWebview";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "admin/admin-Bridging-Header.h";
@@ -435,7 +435,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "test.admin-WKWebview";
+				PRODUCT_BUNDLE_IDENTIFIER = test.ios.admingdw;
 				PRODUCT_NAME = "admin-WKWebview";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "admin/admin-Bridging-Header.h";
